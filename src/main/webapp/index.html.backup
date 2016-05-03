@@ -1,0 +1,181 @@
+<html>
+<head>
+    <title>Angular JS Table</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-confirm.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid" ng-app="mainApp">
+    <div class="row">
+        <div class="span8">
+            <h1>Phone users</h1>
+
+            <div ng-view></div>
+            <script type="text/ng-template" id="addUser.htm">
+                <ul class="breadcrumb">
+                    <li><a href="#viewUsers">View</a><span>/</span></li>
+                    <li class="active">Add</li>
+                </ul>
+                <h2>Add user</h2>
+                <form role="form">
+                    <div class="input input-large">
+                        <span class="input-group-addon" for="nameAdd">Name :</span>
+                        <input class="form-control input-large" type="text" ng-model="user.name" id="nameAdd" required>
+                    </div>
+                    <div class="input input-large">
+                        <span class="input-group-addon" for="phoneAdd">Phone :</span>
+                        <input class="form-control input-large"
+                               type="text" ng-model="user.phone" id="phoneAdd"
+                               required></div>
+                    <div class="input input-large">
+                        <span class="input-group-addon" for="addressAdd">Address :</span>
+                        <input class="form-control input-large"
+                               type="text" ng-model="user.address" id="addressAdd"
+                               required></div>
+                    <div class="input input-large">
+                        <input type="button" class="btn btn-primary" ng-click="createUser()" value="Save"></div>
+                </form>
+            </script>
+            <script type="text/ng-template" id="editUser.htm">
+                <ul class="breadcrumb">
+                    <li><a href="#viewUsers">View</a><span>/</span></li>
+                    <li class="active">Edit</li>
+                </ul>
+                <h2>Edit user</h2>
+                <!--<form role="form">-->
+                <div class="input input-large">
+                    <span class="input-group-addon" id="nameEdit">Name :</span>
+                    <input class="form-control input-large" type="text"
+                           ng-model="user.name" required aria-describedby="nameEdit"></div>
+                <div class="input input-large">
+                    <span class="input-group-addon" id="phoneEdit">Phone :</span>
+                    <input class="form-control input-large" type="text"
+                           ng-model="user.phone" required aria-describedby="phoneEdit"></div>
+                <div class="input input-large">
+                    <span class="input-group-addon" id="addressEdit">Address :</span>
+                    <input class="form-control input-large"
+                           type="text" ng-model="user.address"
+                           required aria-describedby="addressEdit">
+                </div>
+                <div class="input input-large">
+                    <input type="button" class="btn btn-primary" ng-click="saveUser(user)" value="Save">
+                </div>
+                <!--</form>-->
+            </script>
+            <script type="text/ng-template" id="viewUsers.htm">
+                <ul class="breadcrumb">
+                    <li class="active">View</li>
+                </ul>
+                <h2>List users</h2>
+                <a class="btn btn-success" href="#addUser">Add user</a>
+                </br>
+                </br>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <span class="label label-inverse">Search :</span><input class="form-control input-large"
+                                                                                type="text" ng-model="search">
+                    </div>
+                </form>
+                <table class="table table-condensed">
+                    <tr ng-repeat="user in users | filter : search">
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user.address }}</td>
+                        <td><button type="button" class="btn btn-warning" confirm="Are you sure?" ng-click="editUser(user)">edit</button></td>
+                        <td><button type=button class="btn btn-danger" ng-click="deleteUser(user,$index)">delete</button></td>
+                    </tr>
+                </table>
+            </script>
+        </div>
+        <div class="span4"></div>
+    </div>
+</div>
+
+<script>
+
+
+
+    var mainApp = angular.module("mainApp",['ngRoute']);
+//    mainApp.requires.push('angular-confirm');
+    mainApp.service('UserService',
+            function () {
+                var savedData = {}
+
+                function set(data) {
+                    savedData = data;
+                }
+
+                function get() {
+                    return savedData;
+                }
+
+                return {
+                    set: set,
+                    get: get
+                }
+            }
+    );
+    mainApp.config(['$routeProvider',
+        function ($routeProvider) {
+            $routeProvider.
+                    when('/addUser', {
+                        templateUrl: 'addUser.htm',
+                        controller: 'AddStudentController'
+                    }).
+                    when('/editUser', {
+                        templateUrl: 'editUser.htm',
+                        controller: 'EditUserController'
+                    }).
+                    when('/viewUsers', {
+                        templateUrl: 'viewUsers.htm',
+                        controller: 'UsersController'
+                    }).
+                    otherwise({
+                        redirectTo: '/viewUsers'
+                    });
+        }]);
+    mainApp.controller('AddStudentController', function ($scope, $http, $location) {
+        $scope.createUser = function () {
+            $http.post("api/user/", $scope.user).success(
+                    function (response) {
+                        $location.path("/viewUsers");
+                    }
+            );
+        }
+    });
+    mainApp.controller('EditUserController', function ($scope, $http, $location, UserService) {
+        $scope.user = UserService.get();
+        $scope.saveUser = function (user) {
+            $http.put("api/user/", user).success(function (response) {
+                $location.path("/viewUsers");
+            });
+        }
+    });
+    mainApp.controller('UsersController', function ($scope, $http, $location, UserService) {
+        $http.get("api/user/").success(function (response) {
+            $scope.users = response;
+        });
+        $scope.editUser = function (user) {
+            UserService.set(user);
+            $location.path("/editUser");
+        };
+        $scope.deleteUser = function (user, index) {
+//            $confirm({text:"Are you sure?"}).then(function() {
+                $http.put("api/user/delete", user).success(function (response) {
+                    $scope.users.splice(index, 1);
+                }) ;
+//            })
+
+        };
+    });
+</script>
+
+</body>
+</html>
+

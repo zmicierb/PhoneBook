@@ -1,0 +1,35 @@
+<div class="container-fluid" ng-app="app">
+    <div class="row">
+        <div class="col-lg-6">
+            <ul class="breadcrumb">
+                <li class="active">View</li>
+            </ul>
+            <h2>List users</h2>
+            <a class="btn btn-success" href="#addUser">Add user</a>
+            </br>
+            </br>
+            <form class="form-inline">
+                <div class="form-group">
+                    <span class="label label-inverse">Search :</span><input class="form-control input-large"
+                                                                            type="text" ng-model="search">
+                </div>
+            </form>
+            <table id="users" class="table table-condensed">
+                <tr ng-repeat="user in users | filter : search">
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" confirm="Are you sure?" ng-click="editUser(user)">
+                            edit
+                        </button>
+                    </td>
+                    <td>
+                        <button type=button class="btn btn-danger" ng-click="deleteUser(user,$index)">delete</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-6"></div>
+    </div>
+</div>
