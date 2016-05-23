@@ -6,16 +6,27 @@
                 <li class="active">Edit</li>
             </ul>
             <h2>Edit user</h2>
+
             <form role="form">
+                <div hidden="true" class="input input-large">
+                    <span class="input-group-addon" for="idEdit">Id :</span>
+                    <input class="form-control input-large" type="text" ng-model="user.id" id="idEdit" required></div>
                 <div class="input input-large">
                     <span class="input-group-addon" for="nameEdit">Name :</span>
-                    <input class="form-control input-large" type="text" ng-model="user.name" id="nameEdit" required></div>
+                    <input class="form-control input-large" type="text" ng-model="user.name" id="nameEdit" required>
+                </div>
                 <div class="input input-large">
                     <span class="input-group-addon" for="phoneEdit">Phone :</span>
-                    <input class="form-control input-large" type="text" ng-model="user.phone" id="phoneEdit" required></div>
+                    <input class="form-control input-large" type="text" ng-model="user.phone" id="phoneEdit" required>
+                </div>
                 <div class="input input-large">
                     <span class="input-group-addon" for="addressEdit">Address :</span>
-                    <input class="form-control input-large" type="text" ng-model="user.address" id="addressEdit" required></div>
+                    <input class="form-control input-large" type="text" ng-model="user.address" id="addressEdit"
+                           required></div>
+                <div class="input input-large">
+                    <span class="input-group-addon" for="postEdit">Post :</span>
+                    <input class="form-control input-large" type="text" ng-model="user.post" id="postEdit" required>
+                </div>
                 <div class="input input-large">
                     <input type="button" class="btn btn-primary" ng-click="saveUser(user)" value="Save"></div>
             </form>

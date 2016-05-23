@@ -16,23 +16,23 @@ define(['./module'], function (controllers) {
                 controller: function ($scope, $uibModalInstance) {
                     $scope.header = 'Удаление пользователя';
 
-                    $scope.confirmText = "Вы уверены, что хотите удалить пользователя " +user.name;
+                    $scope.confirmText = "Вы уверены, что хотите удалить пользователя " + user.name;
 
                     $scope.ok = function () {
                         $http.put("api/user/delete", user).success(function (response) {
                             $uibModalInstance.dismiss('cancel');
                             spliceTbl(index);
-                        }) ;
+                        });
                     };
                     $scope.cancel = function () {
                         $uibModalInstance.dismiss('cancel');
 
                     };
                 }
-                });
+            });
         };
 
-        function spliceTbl(indexId){
+        function spliceTbl(indexId) {
             $scope.users.splice(indexId, 1);
         }
     });

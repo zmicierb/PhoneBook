@@ -11,7 +11,8 @@
     <name>phone-book</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <spring.version>4.1.0.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
+        <springsecurity.version>4.1.0.RELEASE</springsecurity.version>
     </properties>
     <dependencies>
         <dependency>
@@ -19,6 +20,9 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.3.3</version>
         </dependency>
+
+        <!--Spring core -->
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
@@ -49,12 +53,34 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
+        <!--Spring security -->
+
         <dependency>
-            <groupId>junit</groupId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${springsecurity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${springsecurity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${springsecurity.version}</version>
+        </dependency>
+
+        <dependency>
+        <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.5</version>
             <scope>test</scope>
         </dependency>
+
+        <!--Hibernate -->
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -74,6 +100,16 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.37</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.7</version>
         </dependency>
     </dependencies>
 

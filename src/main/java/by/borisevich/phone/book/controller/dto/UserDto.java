@@ -1,10 +1,12 @@
 package by.borisevich.phone.book.controller.dto;
 
 import by.borisevich.phone.book.domain.UserV2;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by BorisevichDA on 2016-04-26.
  */
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
 
     private Long id;
@@ -13,11 +15,15 @@ public class UserDto {
     private String address;
     private String post;
 
-    public UserDto(UserV2 user){
-        this.id=user.getId();
-        this.name=user.getName();
-        this.phone=user.getPhone();
-        this.address=user.getAddress();
+    public UserDto() {
+
+    }
+
+    public UserDto(UserV2 user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.address = user.getAddress();
         if (user.getPostV2() != null) {
             this.post = user.getPostV2().getPost();
         }

@@ -34,22 +34,22 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public UserV2 getById(@PathVariable Long id) {
-        return userV2Service.get(id);
+    public UserDto getById(@PathVariable Long id) {
+        return userV2Service.getById(id);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public void create(@RequestBody UserV2 user) {
+    public void create(@RequestBody UserDto user) {
         userV2Service.create(user);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public void update(@RequestBody UserV2 user) {
+    public void update(@RequestBody UserDto user) {
         userV2Service.createOrUpdate(user);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.PUT)
-    public void delete(@RequestBody UserV2 user) {
+    public void delete(@RequestBody UserDto user) {
         userV2Service.delete(user);
     }
 }

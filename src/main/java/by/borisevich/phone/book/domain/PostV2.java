@@ -14,8 +14,8 @@ import java.util.Set;
 @Entity
 @Table(name = "DICT_POST", schema = "DICT")
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class PostV2 extends AbstractPersistable<Long>{
+//@JsonIgnoreProperties(ignoreUnknown = true)
+public class PostV2 extends AbstractPersistable<Long> {
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -25,7 +25,7 @@ public class PostV2 extends AbstractPersistable<Long>{
     private String post;
 
     @OneToMany(mappedBy = "postV2", fetch = FetchType.LAZY)
-//    @JsonBackReference
+    @JsonBackReference
     private List<UserV2> user;
 
     @Override

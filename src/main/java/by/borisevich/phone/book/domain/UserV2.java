@@ -1,6 +1,7 @@
 package by.borisevich.phone.book.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -10,8 +11,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "USER", schema = "DICT")
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class UserV2 extends AbstractPersistable<Long>{
+//@JsonIgnoreProperties(ignoreUnknown = true)
+public class UserV2 extends AbstractPersistable<Long> {
 
     @Id
     @GeneratedValue
@@ -27,9 +28,9 @@ public class UserV2 extends AbstractPersistable<Long>{
     @Column(name = "address")
     private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional=false)
-//    @JsonManagedReference
-    @JoinTable(name = "POSITION", joinColumns = @JoinColumn(name = "USER_ID",unique = true), inverseJoinColumns = @JoinColumn(name = "POST_ID",unique = true))
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) //, cascade = {CascadeType.ALL}
+    @JsonManagedReference
+    @JoinTable(name = "POSITION", joinColumns = @JoinColumn(name = "USER_ID", unique = true), inverseJoinColumns = @JoinColumn(name = "POST_ID", unique = true))
     private PostV2 postV2;
 
     @Override
