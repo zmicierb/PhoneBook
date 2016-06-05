@@ -7,6 +7,9 @@
             </ul>
             <h2>Add user</h2>
             <form role="form">
+                <div hidden="true" class="input input-large">
+                    <span class="input-group-addon" for="idAdd">Id :</span>
+                    <input class="form-control input-large" type="text" ng-model="user.id" id="idAdd" required></div>
                 <div class="input input-large">
                     <span class="input-group-addon" for="nameAdd">Name :</span>
                     <input class="form-control input-large" type="text" ng-model="user.name" id="nameAdd" required></div>
@@ -16,6 +19,10 @@
                 <div class="input input-large">
                     <span class="input-group-addon" for="addressAdd">Address :</span>
                     <input class="form-control input-large" type="text" ng-model="user.address" id="addressAdd" required></div>
+                <div class="input input-large">
+                    <span class="input-group-addon" for="postAdd">Post :</span>
+                    <input class="form-control input-large" type="text" ng-model="user.post" id="postAdd" required>
+                </div>
                 <div class="input input-large">
                     <input type="button" class="btn btn-primary" ng-click="createUser()" value="Save"></div>
             </form>

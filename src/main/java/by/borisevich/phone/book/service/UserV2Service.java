@@ -14,4 +14,12 @@ public interface UserV2Service extends GenericService<UserV2, Long> {
 
     List<UserDto> getByName(String name);
 
+    UserDto getById(Long id);
+
+    UserDto create(UserDto userDto);
+
+    UserDto createOrUpdate(UserDto userDto);
+
+    void delete(UserDto userDto);
+
 }
