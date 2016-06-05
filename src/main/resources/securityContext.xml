@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+    <http pattern="/lib/**" security="none"/>
+    <http pattern="/images/**" security="none"/>
+    <http pattern="/styles/**" security="none"/>
+    <!--<http pattern="/app/**" security="none"/>-->
+
+    <!-- For API resources without redirect strategy -->
+    <beans:bean id="restAuthenticationEntryPoint"
+                class="by.borisevich.phone.book.security.rest.RestAuthenticationEntryPoint"></beans:bean>
+    <beans:bean id="restAuthenticationSuccessHandler"
+                class="by.borisevich.phone.book.security.rest.RestAuthenticationSuccessHandler"/>
+    <beans:bean id="restAuthenticationFailureHandler"
+                class="by.borisevich.phone.book.security.rest.RestAuthenticationFailureHandler"/>
+
+    <beans:bean id="restSuccessLogoutHandler"
+                class="by.borisevich.phone.book.security.rest.RestSuccessLogoutHandler"/>
+
+    <http realm="Rest API" auto-config="false" entry-point-ref="restAuthenticationEntryPoint" use-expressions="true"
+          pattern="/api/**">
+
+        <custom-filter position="FORM_LOGIN_FILTER" ref="restUsernamePasswordAuthenticationFilter"/>
+        <logout logout-url="/api/logout" success-handler-ref="restSuccessLogoutHandler"/>
+
+        <intercept-url pattern="/api/**" access="isAuthenticated()"/>
+
+        <headers>
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
+
+        <csrf disabled="true"/>
+
+        <session-management session-fixation-protection="none">
+            <!--<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>-->
+        </session-management>
+
+    </http>
+
+    <beans:bean id="restUsernamePasswordAuthenticationFilter"
+                class="by.borisevich.phone.book.security.rest.RestUsernamePasswordAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <beans:property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler"/>
+        <beans:property name="authenticationFailureHandler" ref="restAuthenticationFailureHandler"/>
+        <!--<beans:property name="filterProcessesUrl" value="/api/login"/>-->
+    </beans:bean>
+    <!-- For API resources without redirect strategy -->
+
+
+    <beans:bean id="authenticationSuccessHandler"
+                class="by.borisevich.phone.book.security.AuthenticationSuccessHandler"/>
+    <beans:bean id="myLogoutHandler" class="by.borisevich.phone.book.security.DBLogoutHandler"/>
+    <beans:bean id="securityContextLogoutHandler"
+                class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+
+    <beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <beans:constructor-arg index="0" value="/login"/>
+        <beans:constructor-arg index="1">
+            <beans:list>
+                <beans:ref bean="myLogoutHandler"/>
+                <beans:ref bean="securityContextLogoutHandler"/>
+            </beans:list>
+        </beans:constructor-arg>
+        <beans:property name="filterProcessesUrl" value="/logout"/>
+    </beans:bean>
+
+    <!-- http config for regular HTML pages -->
+    <http>
+        <custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
+        <intercept-url pattern="/login**" access="permitAll"/>
+        <intercept-url pattern="/logout**" access="permitAll"/>
+
+        <intercept-url pattern="/api/**/pdf" access="isAuthenticated()"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+
+        <headers>
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
+
+        <form-login
+                login-page="/login"
+                default-target-url="/"
+                always-use-default-target="true"
+                username-parameter="login"
+                password-parameter="password"
+                authentication-failure-url="/login?error"
+                authentication-success-handler-ref="authenticationSuccessHandler"
+                />
+
+        <csrf disabled="true"/>
+
+        <session-management session-fixation-protection="none">
+            <!--<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>-->
+        </session-management>
+    </http>
+
+    <beans:bean id="authenticationProvider" class="by.borisevich.phone.book.security.DBAuthenticationProvider"/>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="authenticationProvider"/>
+    </authentication-manager>
+
+    <global-method-security secured-annotations="enabled"/>
+
+</beans:beans>

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 /**
-* Created by BorisevichDA on 2016-04-11.
-*/
+ * Created by BorisevichDA on 2016-04-11.
+ */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
