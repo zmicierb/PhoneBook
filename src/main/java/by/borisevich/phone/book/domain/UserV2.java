@@ -33,7 +33,6 @@ public class UserV2 extends AbstractPersistable<Long> {
     @JoinTable(name = "POSITION", joinColumns = @JoinColumn(name = "USER_ID", unique = true), inverseJoinColumns = @JoinColumn(name = "POST_ID", unique = true))
     private PostV2 postV2;
 
-    @Override
     public Long getId() {
         return id;
     }

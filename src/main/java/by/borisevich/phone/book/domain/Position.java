@@ -35,7 +35,6 @@ public class Position extends AbstractPersistable<Long>{
 //        this.dict = dict;
 //    }
 
-    @Override
     public Long getId() {
         return id;
     }

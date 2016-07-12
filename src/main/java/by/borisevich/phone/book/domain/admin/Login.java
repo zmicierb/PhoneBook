@@ -33,8 +33,6 @@ public class Login extends AbstractPersistable<String> {
         this.password = password;
     }
 
-
-    @Override
     public String getId() {
         return id;
     }

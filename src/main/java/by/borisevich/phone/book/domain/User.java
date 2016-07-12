@@ -35,7 +35,6 @@ public class User extends AbstractPersistable<Long>{
         this.address = address;
     }
 
-    @Override
     public Long getId() {
         return id;
     }

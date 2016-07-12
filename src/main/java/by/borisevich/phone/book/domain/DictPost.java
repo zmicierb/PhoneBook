@@ -29,7 +29,6 @@ public class DictPost extends AbstractPersistable<Long>{
         this.post = post;
     }
 
-    @Override
     public Long getId() {
         return id;
     }

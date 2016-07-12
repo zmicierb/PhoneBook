@@ -27,8 +27,6 @@ public class Department extends AbstractPersistable<Long> {
 //    private String payPNum;
 //    private String payDoc;
 
-
-    @Override
     public Long getId() {
         return id;
     }

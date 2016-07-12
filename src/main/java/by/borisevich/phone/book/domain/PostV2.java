@@ -28,7 +28,6 @@ public class PostV2 extends AbstractPersistable<Long> {
     @JsonBackReference
     private List<UserV2> user;
 
-    @Override
     public Long getId() {
         return id;
     }

@@ -29,7 +29,6 @@ public class DBAuthenticationProvider implements AuthenticationProvider {
 
     private static final Logger log = LoggerFactory.getLogger(DBAuthenticationProvider.class);
 
-    @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         Session session = null;
@@ -41,14 +40,13 @@ public class DBAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationServiceException(e.getMessage(), e);
         }
 
-        List<GrantedAuthority> grantedAuths = new ArrayList<>();
+        List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
 //            grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER")); TODO добавить список ролей пользователя
         User user = new User(authentication.getName(), authentication.getCredentials().toString(), grantedAuths);
         Authentication auth = new DBAuthenticationToken(user, authentication.getCredentials().toString(), grantedAuths, session);
         return auth;
     }
 
-    @Override
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }

@@ -1,13 +1,8 @@
 package by.borisevich.phone.book.domain.admin;
 
 import by.borisevich.phone.book.domain.AbstractPersistable;
-import by.borisevich.phone.book.domain.Lang;
-import by.borisevich.phone.book.domain.SearchType;
-import by.borisevich.phone.book.controller.dto.Menu;
-import com.google.gson.Gson;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by dima on 6/5/16.
@@ -42,7 +37,7 @@ public class Session extends AbstractPersistable<String> {
         this.login = login;
     }
 
-    @Override
+    //    @Override
     public String getId() {
         return id;
     }

@@ -2,7 +2,6 @@ package by.borisevich.phone.book.controller;
 
 import by.borisevich.phone.book.controller.dto.UserDto;
 import by.borisevich.phone.book.domain.User;
-import by.borisevich.phone.book.domain.UserV2;
 import by.borisevich.phone.book.service.UserService;
 import by.borisevich.phone.book.service.UserV2Service;
 import org.springframework.beans.factory.annotation.Autowired;
