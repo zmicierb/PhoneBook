@@ -87,43 +87,35 @@ public class GenericDaoImpl<T, ID extends Serializable> implements GenericDao<T,
         this.sessionFactory = sessionFactory;
     }
 
-    @Override
     public ID create(Object entity) {
         return (ID) sessionFactory.getCurrentSession().save(entity);
 
     }
 
-    @Override
     public void update(Object entity) {
         sessionFactory.getCurrentSession().update(entity);
     }
 
-    @Override
     public void delete(Object entity) {
         sessionFactory.getCurrentSession().delete(entity);
     }
 
-    @Override
     public void createOrUpdate(Object entity) {
         sessionFactory.getCurrentSession().saveOrUpdate(entity);
     }
 
-    @Override
     public Object merge(Object entity) {
         return sessionFactory.getCurrentSession().merge(entity);
     }
 
-    @Override
     public T get(ID id) {
         return (T) sessionFactory.getCurrentSession().get(persistentClass, id);
     }
 
-    @Override
     public void refresh(Object entity) {
         sessionFactory.getCurrentSession().refresh(entity);
     }
 
-    @Override
     public List<T> findAll() {
         return findAll(ListParams.EMPTY);
     }
@@ -164,7 +156,6 @@ public class GenericDaoImpl<T, ID extends Serializable> implements GenericDao<T,
         return criteria.getExecutableCriteria(sessionFactory.getCurrentSession());
     }
 
-    @Override
     public Long count() {
         return getTotalCount(getExecutableCriteria(getDetachedCriteria()));
     }
