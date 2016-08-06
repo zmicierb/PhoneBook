@@ -20,7 +20,6 @@ public class PostV2DaoImpl extends GenericDaoImpl<PostV2, Long> implements PostV
         super(PostV2.class);
     }
 
-    @Override
     public PostV2 getByName(String name) {
         DetachedCriteria dc = getDetachedCriteria();
         dc.add(Restrictions.eq("post", name));
