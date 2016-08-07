@@ -3,6 +3,8 @@ package by.borisevich.phone.book.domain.admin;
 import by.borisevich.phone.book.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by dima on 6/5/16.
@@ -18,11 +20,14 @@ public class Login extends AbstractPersistable<String> {
     private String password;
     @Column(name = "name")
     private String name;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "dept_id")
     private Department department;
     @Column(name = "dept_id", insertable = false, updatable = false)
     private Long deptId;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "loginId", cascade = CascadeType.ALL)
+    private Set<LoginLock> loginLocks = new HashSet<LoginLock>();
 
     public Login() {
 
@@ -72,5 +77,13 @@ public class Login extends AbstractPersistable<String> {
 
     public void setDeptId(Long deptId) {
         this.deptId = deptId;
+    }
+
+    public Set<LoginLock> getLoginLocks() {
+        return loginLocks;
+    }
+
+    public void setLoginLocks(Set<LoginLock> loginLocks) {
+        this.loginLocks = loginLocks;
     }
 }

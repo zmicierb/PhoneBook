@@ -54,7 +54,9 @@
 
 
     <beans:bean id="authenticationSuccessHandler"
-                class="by.borisevich.phone.book.security.AuthenticationSuccessHandler"/>
+                class="by.borisevich.phone.book.security.AuthenticationSuccessHandler">
+        <beans:property name="useReferer" value="true"/>
+    </beans:bean>
     <beans:bean id="myLogoutHandler" class="by.borisevich.phone.book.security.DBLogoutHandler"/>
     <beans:bean id="securityContextLogoutHandler"
                 class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
@@ -71,13 +73,13 @@
     </beans:bean>
 
     <!-- http config for regular HTML pages -->
-    <http>
+    <http use-expressions="true">
         <custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
-        <intercept-url pattern="/login**" access="permitAll"/>
+        <intercept-url pattern="/login**" access="permitAll" requires-channel="https"/>
         <intercept-url pattern="/logout**" access="permitAll"/>
 
         <intercept-url pattern="/api/**/pdf" access="isAuthenticated()"/>
-        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <intercept-url pattern="/**" access="isAuthenticated()" requires-channel="http"/>
 
         <headers>
             <frame-options policy="SAMEORIGIN"/>
@@ -100,10 +102,27 @@
         </session-management>
     </http>
 
-    <beans:bean id="authenticationProvider" class="by.borisevich.phone.book.security.DBAuthenticationProvider"/>
+    <!--<beans:bean id="authenticationProvider" class="by.borisevich.phone.book.security.DBAuthenticationProvider"/>-->
+    <!---->
+    <!--<authentication-manager alias="authenticationManager">-->
+    <!--<authentication-provider ref="authenticationProvider"/>-->
+    <!--</authentication-manager>-->
+    <!---->
+    <beans:bean id="loginService" class="by.borisevich.phone.book.service.impl.LoginServiceImpl"/>
+    <!--<beans:bean id="noPasswordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>-->
+    <beans:bean id="cryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <beans:bean id="sessionInDbService" class="by.borisevich.phone.book.service.impl.SessionManagerServiceImpl"/>
+
+    <beans:bean id="userAuthProvider" class="by.borisevich.phone.book.security.UserDetailAuthenticationProvider">
+        <beans:property name="sessionInDbManagerService" ref="sessionInDbService"/>
+        <beans:property name="userDetailsService" ref="loginService"/>
+        <!--<beans:property name="passwordEncoder" ref="noPasswordEncoder"/>-->
+        <beans:property name="passwordEncoder" ref="cryptPasswordEncoder"/>
+    </beans:bean>
 
     <authentication-manager alias="authenticationManager">
-        <authentication-provider ref="authenticationProvider"/>
+        <!--<get-provider ref="authenticationProvider"/>-->
+        <authentication-provider ref="userAuthProvider"/>
     </authentication-manager>
 
     <global-method-security secured-annotations="enabled"/>

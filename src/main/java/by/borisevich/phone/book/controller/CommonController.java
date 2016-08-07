@@ -1,5 +1,7 @@
 package by.borisevich.phone.book.controller;
 
+import by.borisevich.phone.book.util.MessagesHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +20,9 @@ import java.util.Map;
 @Controller
 public class CommonController {
 
+    @Autowired
+    private MessagesHelper mh;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(@RequestParam(value = "error", required = false) String error,
                             HttpServletRequest request, Map<String, Object> model, Locale locale) {
@@ -29,7 +34,7 @@ public class CommonController {
         }
 
         if (error != null)
-            model.put("error", "Invalid username or password");
+            model.put("error", mh.getMessage("UserDetailsAuthenticationProvider.badCredentials", Locale.getDefault()));
 
         return "login";
     }

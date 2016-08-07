@@ -6,6 +6,7 @@ import by.borisevich.phone.book.service.SessionManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,9 +23,11 @@ import java.util.List;
  * Created by dima on 6/5/16.
  */
 @Component
+@Deprecated
 public class DBAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
+    @Qualifier("sessionInDbService")
     private SessionManagerService sessionManagerService;
 
     private static final Logger log = LoggerFactory.getLogger(DBAuthenticationProvider.class);
@@ -34,7 +37,7 @@ public class DBAuthenticationProvider implements AuthenticationProvider {
         Session session = null;
 
         try {
-            session = sessionManagerService.authentication(authentication);
+            session = sessionManagerService.get(authentication);
         } catch (StoredProcedureReturnException e) {
             log.debug(e.getMessage());
             throw new AuthenticationServiceException(e.getMessage(), e);

@@ -1,6 +1,9 @@
 package by.borisevich.phone.book.domain.admin;
 
+import by.borisevich.phone.book.controller.dto.LoginDto;
 import by.borisevich.phone.book.domain.AbstractPersistable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import javax.persistence.*;
 
@@ -24,10 +27,20 @@ public class Session extends AbstractPersistable<String> {
 //    private SearchType searchType = SearchType.b;
 //    private int debug = 0;          // 0 - 1 уровень логирования
 //    private String application;     //?
-//    private List<Menu> menu;      //пользовательское меню
+//    private List<MenuDto> menu;      //пользовательское меню
 
     public Session() {
 
+    }
+
+    public Session(Authentication authentication) {
+        String name = authentication.getName();
+        String password = authentication.getCredentials() != null ? authentication.getCredentials().toString() : null;
+        WebAuthenticationDetails details = (WebAuthenticationDetails) authentication.getDetails();
+
+        this.id = details.getSessionId();
+        this.ip = details.getRemoteAddress();
+        this.login = new Login(name, password);
     }
 
     public Session(String userId, String id, String ip, Login login) {

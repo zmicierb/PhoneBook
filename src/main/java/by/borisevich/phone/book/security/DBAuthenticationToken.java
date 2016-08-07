@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+@Deprecated
 public class DBAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
     // содержит инфу полученную из бд после аутентификации

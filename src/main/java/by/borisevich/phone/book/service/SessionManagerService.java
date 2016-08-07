@@ -13,7 +13,18 @@ public interface SessionManagerService {
      *
      * @param authentication
      */
-    Session authentication(Authentication authentication);
+//    Session authentication(Authentication authentication);
+
+    Session get(Authentication authentication);
+
+    /**
+     * Авторизация пользователя в БД
+     * Необходима для использования процедур и логирования
+     *
+     * @param authentication объект аутентификации в системе
+     * @return
+     */
+    void login(Authentication authentication);
 
     /**
      * Завершение сеанса работы текущего пользователя с БД
