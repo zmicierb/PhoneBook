@@ -93,7 +93,7 @@ public class LoginServiceImpl implements LoginService {
         if (login.getDeptId() != null) {
             loginFull.setDepartment(deptDao.get(login.getDeptId()));
         }
-        List<LoginFunction> oldLoginFunction = loginFunctionDao.list(oldLogin.getId());//may be oldLogin
+        List<LoginFunction> oldLoginFunction = loginFunctionDao.list(login.getId());
         for (LoginFunction loginFunction : oldLoginFunction) {
             loginFunctionDao.delete(loginFunction);
         }
