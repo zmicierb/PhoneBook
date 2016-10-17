@@ -1,4 +1,4 @@
-package by.borisevich.phone.book.tool;
+package by.borisevich.phone.book.tool.generic;
 
 import java.util.Collection;
 import java.util.List;

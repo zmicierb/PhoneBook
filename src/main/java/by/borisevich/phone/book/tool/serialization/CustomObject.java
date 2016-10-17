@@ -1,4 +1,4 @@
-package by.borisevich.phone.book.tool;
+package by.borisevich.phone.book.tool.serialization;
 
 import java.io.Externalizable;
 import java.io.IOException;

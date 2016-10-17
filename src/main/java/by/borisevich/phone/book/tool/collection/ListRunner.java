@@ -1,4 +1,4 @@
-package by.borisevich.phone.book.tool;
+package by.borisevich.phone.book.tool.collection;
 
 import java.util.List;
 import java.util.concurrent.Callable;

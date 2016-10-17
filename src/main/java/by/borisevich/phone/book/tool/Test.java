@@ -17,7 +17,7 @@ public class Test
         System.out.println ("---------------------") ;
         System.out.println ("testing composition: ") ;
         c.getTestable ().test ();
-        /* ^^ we know composition class have testeble,
+        /* ^^ we know composition class have testable,
          * so we are using it to perform some actions
          * Example: System.out.println();  out is an nested field, and is example of composition
          */

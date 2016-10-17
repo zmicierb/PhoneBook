@@ -1,4 +1,4 @@
-package by.borisevich.phone.book.tool;
+package by.borisevich.phone.book.tool.serialization;
 
 import javax.xml.bind.annotation.*;
 import java.io.*;

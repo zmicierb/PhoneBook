@@ -1,4 +1,4 @@
-package by.borisevich.phone.book.tool;
+package by.borisevich.phone.book.tool.generic;
 
 /**
  * Created by dima on 10/5/16.

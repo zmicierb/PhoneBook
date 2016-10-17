@@ -1,5 +1,15 @@
 package by.borisevich.phone.book.tool;
 
+import by.borisevich.phone.book.tool.collection.Consumer;
+import by.borisevich.phone.book.tool.collection.Data;
+import by.borisevich.phone.book.tool.collection.ListRunner;
+import by.borisevich.phone.book.tool.collection.Producer;
+import by.borisevich.phone.book.tool.generic.Camera;
+import by.borisevich.phone.book.tool.generic.Phone;
+import by.borisevich.phone.book.tool.generic.Product;
+import by.borisevich.phone.book.tool.generic.SomeType;
+import by.borisevich.phone.book.tool.serialization.DataObject;
+
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -56,6 +66,7 @@ public class Check {
 //
 //        camera1.compareTo(camera2);
 //        list2.add(camera2);
+//        list2.add(camera1);
 //        list2.add(phone);
 //
 //    }
@@ -110,7 +121,7 @@ public class Check {
 //            list.add(i);
 //    }
 
-    //PriorityQueue with Comparator and Comparable
+//    PriorityQueue with Comparator and Comparable
 //    public static void main(String[] args) {
 //        Queue<TestData> queue = new PriorityQueue<TestData>(new Comparator<TestData>() {
 //            public int compare(TestData o1, TestData o2) {
@@ -143,7 +154,7 @@ public class Check {
 //            System.out.println(queue2.poll());
 //
 //    }
-
+//
 //    private static class TestData {
 //        private Integer i;
 //        private String text;
