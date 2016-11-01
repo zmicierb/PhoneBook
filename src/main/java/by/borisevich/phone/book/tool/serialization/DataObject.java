@@ -1,7 +1,12 @@
 package by.borisevich.phone.book.tool.serialization;
 
 import javax.xml.bind.annotation.*;
-import java.io.*;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dima on 10/6/16.
@@ -10,25 +15,29 @@ import java.io.*;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "dataObj")
 public class DataObject extends NonSerializable implements Externalizable {
-    @XmlElement
+    @XmlAttribute
     private int i;
     @XmlElement
     private String s;
 
     private String[] def;
     @XmlElement
-    private CustomObject customObject = new CustomObject();
+    @XmlElementWrapper(name = "elem")
+    private List<CustomObject> customObject = new ArrayList<>();
+
 
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(s);
-        out.writeObject(getMyData());
+//        out.writeInt(i);
+//        out.writeObject(getMyData());
         out.writeObject(getCustomObject());
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         s = (String) in.readObject();
-        setMyData((String) in.readObject());
-        setCustomObject((CustomObject) in.readObject());
+//        i = in.readInt();
+//        setMyData((String) in.readObject());
+        setCustomObject((List<CustomObject>) in.readObject());
     }
 
     public int getI() {
@@ -55,11 +64,11 @@ public class DataObject extends NonSerializable implements Externalizable {
         this.def = def;
     }
 
-    public CustomObject getCustomObject() {
+    public List<CustomObject> getCustomObject() {
         return customObject;
     }
 
-    public void setCustomObject(CustomObject customObject) {
+    public void setCustomObject(List<CustomObject> customObject) {
         this.customObject = customObject;
     }
 }

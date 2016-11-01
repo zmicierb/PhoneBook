@@ -1,18 +1,8 @@
 package by.borisevich.phone.book.tool;
 
-import by.borisevich.phone.book.tool.collection.Consumer;
-import by.borisevich.phone.book.tool.collection.Data;
-import by.borisevich.phone.book.tool.collection.ListRunner;
-import by.borisevich.phone.book.tool.collection.Producer;
-import by.borisevich.phone.book.tool.generic.Camera;
-import by.borisevich.phone.book.tool.generic.Phone;
-import by.borisevich.phone.book.tool.generic.Product;
-import by.borisevich.phone.book.tool.generic.SomeType;
+import by.borisevich.phone.book.tool.serialization.CustomObject;
 import by.borisevich.phone.book.tool.serialization.DataObject;
-
-import java.io.*;
-import java.util.*;
-import java.util.concurrent.*;
+import com.google.gson.Gson;
 
 /**
  * Created by dima on 10/2/16.
@@ -27,30 +17,78 @@ import java.util.concurrent.*;
 public class Check {
 
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) {
         DataObject object = new DataObject();
         object.setMyData("sdfhsfkhdsafuaufakufhaskudfhuashfkadsuhfkuh");
         object.setI(3);
         object.setS("test");
-        object.getCustomObject().setB(true);
-        File file = new File("store2.bin");
+        object.getCustomObject().add(new CustomObject(true));
+        object.getCustomObject().add(new CustomObject(false));
+        Gson gson = new Gson();
 
-        FileOutputStream fo = new FileOutputStream(file);
-        ObjectOutputStream so = new ObjectOutputStream(fo);
-        so.writeObject(object);
-        so.flush();
-        so.close();
+        String json = gson.toJson(object);
 
-        FileInputStream fi = new FileInputStream(file);
-        ObjectInputStream si = new ObjectInputStream(fi);
-        DataObject objNew = (DataObject) si.readObject();
-        si.close();
+        DataObject obj = gson.fromJson(json, DataObject.class);
 
-        System.out.println(objNew.getMyData());
-        System.out.println(objNew.getI());
-        System.out.println(objNew.getS());
-        System.out.println(objNew.getCustomObject().isB());
+        System.out.println(json);
     }
+
+    //Serialization xml
+//    static final String PACKAGE = DataObject.class.getPackage().getName();
+//
+//    public static void main(String[] args) throws JAXBException {
+//        JAXBContext jc = JAXBContext.newInstance(PACKAGE);
+//
+//        Marshaller m = jc.createMarshaller();
+//        m.setProperty("jaxb.formatted.output", true);
+//        Unmarshaller um = jc.createUnmarshaller();
+//
+//        DataObject object = new DataObject();
+//        object.setMyData("sdfhsfkhdsafuaufakufhaskudfhuashfkadsuhfkuh");
+//        object.setI(3);
+//        object.setS("test");
+//        object.getCustomObject().add(new CustomObject(true));
+//        object.getCustomObject().add(new CustomObject(false));
+//        File file = new File("store.xml");
+//
+//        m.marshal(object, file);
+//
+//        DataObject objNew = (DataObject) um.unmarshal(file);
+//        System.out.println(objNew.getMyData());
+//        System.out.println(objNew.getI());
+//        System.out.println(objNew.getS());
+//        for (CustomObject obj:object.getCustomObject())
+//            System.out.println(obj.isB());
+//    }
+//
+
+    // Serializable, Externalizable
+//    public static void main(String[] args) throws IOException, ClassNotFoundException {
+//        DataObject object = new DataObject();
+//        object.setMyData("sdfhsfkhdsafuaufakufhaskudfhuashfkadsuhfkuh");
+//        object.setI(3);
+//        object.setS("test");
+//        object.getCustomObject().add(new CustomObject(true));
+//        object.getCustomObject().add(new CustomObject(false));
+//        File file = new File("store2.bin");
+//
+//        FileOutputStream fo = new FileOutputStream(file);
+//        ObjectOutputStream so = new ObjectOutputStream(fo);
+//        so.writeObject(object);
+//        so.flush();
+//        so.close();
+//
+//        FileInputStream fi = new FileInputStream(file);
+//        ObjectInputStream si = new ObjectInputStream(fi);
+//        DataObject objNew = (DataObject) si.readObject();
+//        si.close();
+//
+//        System.out.println(objNew.getMyData());
+//        System.out.println(objNew.getI());
+//        System.out.println(objNew.getS());
+//        for (CustomObject obj:object.getCustomObject())
+//            System.out.println(obj.isB());
+//    }
 
     //Generic
 //    public static void main(String[] args) {
