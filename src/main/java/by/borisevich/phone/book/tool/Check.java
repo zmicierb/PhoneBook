@@ -1,8 +1,12 @@
 package by.borisevich.phone.book.tool;
 
-import by.borisevich.phone.book.tool.serialization.CustomObject;
-import by.borisevich.phone.book.tool.serialization.DataObject;
-import com.google.gson.Gson;
+import by.borisevich.phone.book.tool.collection.ListRunner;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * Created by dima on 10/2/16.
@@ -17,21 +21,22 @@ import com.google.gson.Gson;
 public class Check {
 
 
-    public static void main(String[] args) {
-        DataObject object = new DataObject();
-        object.setMyData("sdfhsfkhdsafuaufakufhaskudfhuashfkadsuhfkuh");
-        object.setI(3);
-        object.setS("test");
-        object.getCustomObject().add(new CustomObject(true));
-        object.getCustomObject().add(new CustomObject(false));
-        Gson gson = new Gson();
-
-        String json = gson.toJson(object);
-
-        DataObject obj = gson.fromJson(json, DataObject.class);
-
-        System.out.println(json);
-    }
+    //Serialization json
+//    public static void main(String[] args) {
+//        DataObject object = new DataObject();
+//        object.setMyData("sdfhsfkhdsafuaufakufhaskudfhuashfkadsuhfkuh");
+//        object.setI(3);
+//        object.setS("test");
+//        object.getCustomObject().add(new CustomObject(true));
+//        object.getCustomObject().add(new CustomObject(false));
+//        Gson gson = new Gson();
+//
+//        String json = gson.toJson(object);
+//
+//        DataObject obj= gson.fromJson(json, DataObject.class);
+//
+//        System.out.println(json);
+//    }
 
     //Serialization xml
 //    static final String PACKAGE = DataObject.class.getPackage().getName();
@@ -118,46 +123,46 @@ public class Check {
 //        new Thread(new Consumer(queue)).start();
 //    }
 
-    //Concurrent
-//    public static void main(String[] args) throws ExecutionException, InterruptedException {
-//        List<Integer> list1 = Collections.synchronizedList(new ArrayList<Integer>(1000));
-//        List<Integer> list2 = new CopyOnWriteArrayList<Integer>();
-//        List<Integer> list3 = Collections.synchronizedList(new LinkedList<Integer>());
-//
-//        fillList(list1, 1000);
-//        fillList(list2, 1000);
-//        fillList(list3, 1000);
-//
-//        System.out.println("--ArrayList synchronized");
-//        checkList(list1);
-//
-//        System.out.println("--CopyOnWriteArrayList");
-//        checkList(list2);
-//
-//        System.out.println("--LinkedList synchronized");
-//        checkList(list3);
-//
-//    }
-//
-//    private static void checkList(List<Integer> list) throws ExecutionException, InterruptedException {
-//        CountDownLatch count = new CountDownLatch(1);
-//
-//        ExecutorService ex = Executors.newFixedThreadPool(2);
-//
-//        Future<Long> f1 = ex.submit( new ListRunner(0, 500, list, count));
-//
-//        Future<Long> f2 = ex.submit( new ListRunner(500, 1000, list, count));
-//
-//        count.countDown();
-//        System.out.println("Thread 1: " + f1.get()/1000);
-//        System.out.println("Thread 2: " + f2.get()/1000);
-//        System.out.println(list.size());
-//    }
-//
-//    private static void fillList(List<Integer> list, int count) {
-//        for (int i=0; i < count; i++)
-//            list.add(i);
-//    }
+    //    Concurrent
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        List<Integer> list1 = Collections.synchronizedList(new ArrayList<Integer>(1000));
+        List<Integer> list2 = new CopyOnWriteArrayList<Integer>();
+        List<Integer> list3 = Collections.synchronizedList(new LinkedList<Integer>());
+
+        fillList(list1, 1000);
+        fillList(list2, 1000);
+        fillList(list3, 1000);
+
+        System.out.println("--ArrayList synchronized");
+        checkList(list1);
+
+        System.out.println("--CopyOnWriteArrayList");
+        checkList(list2);
+
+        System.out.println("--LinkedList synchronized");
+        checkList(list3);
+
+    }
+
+    private static void checkList(List<Integer> list) throws ExecutionException, InterruptedException {
+        CountDownLatch count = new CountDownLatch(1);
+
+        ExecutorService ex = Executors.newFixedThreadPool(2);
+
+        Future<Long> f1 = ex.submit(new ListRunner(0, 500, list, count));
+
+        Future<Long> f2 = ex.submit(new ListRunner(500, 1000, list, count));
+
+        count.countDown();
+        System.out.println("Thread 1: " + f1.get() / 1000);
+        System.out.println("Thread 2: " + f2.get() / 1000);
+        System.out.println(list.size());
+    }
+
+    private static void fillList(List<Integer> list, int count) {
+        for (int i = 0; i < count; i++)
+            list.add(i);
+    }
 
 //    PriorityQueue with Comparator and Comparable
 //    public static void main(String[] args) {
